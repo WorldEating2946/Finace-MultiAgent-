@@ -1,0 +1,40 @@
+{
+  "_description": "贵州茅台 (600519) 真实财报数据",
+  "_source": "公开年报数据整理",
+  "_note": "数值单位为人民币元",
+  "company_name": "贵州茅台酒股份有限公司",
+  "ticker": "600519",
+  "industry": "食品饮料 / 白酒",
+  "fiscal_data": {
+    "2020": {
+      "revenue": 97993240000,
+      "net_profit": 46697290000,
+      "total_assets": 213395810000,
+      "shareholders_equity": 161324100000
+    },
+    "2021": {
+      "revenue": 109464300000,
+      "net_profit": 52460140000,
+      "total_assets": 255168200000,
+      "shareholders_equity": 189539400000
+    },
+    "2022": {
+      "revenue": 127554000000,
+      "net_profit": 62716460000,
+      "total_assets": 292915400000,
+      "shareholders_equity": 215736600000
+    },
+    "2023": {
+      "revenue": 150560400000,
+      "net_profit": 74734410000,
+      "total_assets": 329327700000,
+      "shareholders_equity": 242810800000
+    },
+    "2024": {
+      "revenue": 174100000000,
+      "net_profit": 86200000000,
+      "total_assets": 372500000000,
+      "shareholders_equity": 275000000000
+    }
+  }
+}

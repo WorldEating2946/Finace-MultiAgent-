@@ -1,0 +1,12 @@
+[
+  {"query": "小米汽车业务未来战略", "expected_sections": ["管理层讨论及分析"]},
+  {"query": "小米2025年营业收入", "expected_sections": ["五年财务概要", "财务摘要"]},
+  {"query": "公司研发投入金额", "expected_sections": ["五年财务概要", "管理层讨论及分析"]},
+  {"query": "小米智能手机全球出货量", "expected_sections": ["管理层讨论及分析"]},
+  {"query": "IoT设备连接数", "expected_sections": ["管理层讨论及分析"]},
+  {"query": "董事会构成", "expected_sections": ["董事会报告"]},
+  {"query": "主要经营风险", "expected_sections": ["管理层讨论及分析", "风险因素"]},
+  {"query": "公司治理结构", "expected_sections": ["企业管治报告"]},
+  {"query": "现金及现金等价物", "expected_sections": ["财务报表", "财务摘要"]},
+  {"query": "股东权益变动", "expected_sections": ["财务报表"]}
+]

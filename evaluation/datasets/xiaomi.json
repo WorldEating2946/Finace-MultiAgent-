@@ -1,0 +1,76 @@
+{
+  "name": "Xiaomi 2025 Annual Report",
+  "company": "小米",
+  "items": [
+    {
+      "id": "xiaomi_001",
+      "company": "小米",
+      "query": "小米汽车业务未来战略",
+      "expected_sections": ["管理层讨论及分析"],
+      "expected_keywords": ["智能电动汽车", "新能源汽车", "汽车业务"]
+    },
+    {
+      "id": "xiaomi_002",
+      "company": "小米",
+      "query": "小米2025年营业收入",
+      "expected_sections": ["五年财务概要", "财务摘要"],
+      "expected_keywords": ["营业收入", "收入", "营业总额"]
+    },
+    {
+      "id": "xiaomi_003",
+      "company": "小米",
+      "query": "公司研发投入金额",
+      "expected_sections": ["五年财务概要", "管理层讨论及分析"],
+      "expected_keywords": ["研发费用", "研发支出", "研发投入"]
+    },
+    {
+      "id": "xiaomi_004",
+      "company": "小米",
+      "query": "小米智能手机全球出货量",
+      "expected_sections": ["管理层讨论及分析"],
+      "expected_keywords": ["智能手机", "出货量", "销量"]
+    },
+    {
+      "id": "xiaomi_005",
+      "company": "小米",
+      "query": "IoT设备连接数",
+      "expected_sections": ["管理层讨论及分析"],
+      "expected_keywords": ["IoT", "物联网", "连接数"]
+    },
+    {
+      "id": "xiaomi_006",
+      "company": "小米",
+      "query": "董事会构成",
+      "expected_sections": ["董事会报告"],
+      "expected_keywords": ["董事会", "董事", "独立非执行董事"]
+    },
+    {
+      "id": "xiaomi_007",
+      "company": "小米",
+      "query": "主要经营风险",
+      "expected_sections": ["管理层讨论及分析", "风险因素"],
+      "expected_keywords": ["经营风险", "风险"]
+    },
+    {
+      "id": "xiaomi_008",
+      "company": "小米",
+      "query": "公司治理结构",
+      "expected_sections": ["企业管治报告"],
+      "expected_keywords": ["企业管治", "公司治理"]
+    },
+    {
+      "id": "xiaomi_009",
+      "company": "小米",
+      "query": "现金及现金等价物",
+      "expected_sections": ["财务报表", "财务摘要"],
+      "expected_keywords": ["现金", "货币资金", "现金等价物"]
+    },
+    {
+      "id": "xiaomi_010",
+      "company": "小米",
+      "query": "股东权益变动",
+      "expected_sections": ["财务报表"],
+      "expected_keywords": ["股东权益", "所有者权益"]
+    }
+  ]
+}

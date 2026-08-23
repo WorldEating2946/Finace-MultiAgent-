@@ -1,0 +1,146 @@
+# FinaceAgent 项目基础依赖
+# Python版本: 3.11
+# 环境管理: Conda + pip
+
+
+
+# =========================
+# Web 服务框架
+# =========================
+fastapi
+uvicorn[standard]
+# multipart/form-data（UploadFile 文件上传；知识库离线入库端点依赖）
+python-multipart
+
+
+# =========================
+# 配置管理
+# =========================
+# 用于管理项目配置、环境变量
+pydantic-settings
+python-dotenv
+
+
+# =========================
+# 数据库与缓存
+# =========================
+# SQL ORM框架
+sqlalchemy
+
+# PostgreSQL异步数据库驱动
+asyncpg
+
+# 数据库结构迁移工具
+alembic
+
+# Redis客户端，用于缓存、会话、Agent记忆等
+redis
+
+
+# =========================
+# 大模型 Agent 框架
+# =========================
+# LangChain基础组件
+langchain
+langchain-core
+
+# OpenAI 兼容接口适配器（llm_factory 的 init_chat_model 加载 ChatOpenAI，
+# Sentiment & Risk Agent / Financial Agent 的 DeepSeek 调用必需；未安装会 ImportError）
+langchain-openai
+
+# LangGraph工作流与Agent编排框架
+langgraph
+
+# LangGraph Sqlite checkpoint（PR39 本地磁盘持久化，跨进程重启恢复）
+langgraph-checkpoint-sqlite
+
+# LangGraph Postgres checkpoint（PR41 生产级 AsyncPostgresSaver，多 worker/多任务并行）
+langgraph-checkpoint-postgres
+# psycopg[binary] —— langgraph-checkpoint-postgres 的驱动（含 libpq 二进制）
+psycopg[binary]
+
+# LangChain文本切片（RAG splitter 模块直接引用，需显式声明）
+langchain-text-splitters
+
+
+# =========================
+# 网络请求
+# =========================
+# 异步HTTP客户端，用于调用外部API和大模型接口
+httpx
+
+# 金融数据源（真实行情/新闻：akshare；财务指标 + 东方财富新闻）
+akshare
+
+
+# =========================
+# 数据校验
+# =========================
+# 数据模型定义与参数校验
+pydantic
+
+
+# =========================
+# 认证与安全（JWT 双 Token + 密码哈希）
+# =========================
+# JWT 编解码（access/refresh 双 token）
+pyjwt
+# 密码哈希（bcrypt；钉 4.0.1 —— passlib 1.7.4 与 bcrypt>=5.0 不兼容）
+passlib[bcrypt]
+bcrypt==4.0.1
+
+
+# =========================
+# 开发与测试工具
+# =========================
+# 单元测试框架
+pytest
+
+# 异步代码测试支持
+pytest-asyncio
+
+# Python代码检查工具
+ruff
+
+# Python代码格式化工具
+black
+
+# =========================
+# RAG 模块（Phase 1）
+# =========================
+# FAISS CPU 向量库（本地文件；PR44.4 起保留用于 local dev / offline eval / emergency recovery）
+faiss-cpu
+
+# Milvus 生产向量后端（PR44.4 切 RAG_VECTOR_BACKEND=milvus；finance_agent.finance_knowledge）
+pymilvus
+
+# PDF 解析（fitz，企业年报/研报/公告均为 PDF）
+pymupdf
+
+# PDF 多解析器 fallback（PyMuPDF 质量不足时尝试）
+pdfplumber
+
+# 繁体中文转简体（金融资料检索归一）
+opencc-python-reimplemented
+
+# =========================
+# Embedding模型（Phase 1）
+# =========================
+# 本地BGE-M3向量模型
+sentence-transformers
+
+# 深度学习运行环境
+torch
+
+
+# =========================
+# Hybrid 检索（Phase 1）
+# =========================
+# 中文分词（BM25 稀疏检索）
+jieba
+
+# BM25 算法（rank_bm25）
+rank_bm25
+
+# OCR（Tesseract 中文识别，文本层损坏 PDF fallback）
+pytesseract

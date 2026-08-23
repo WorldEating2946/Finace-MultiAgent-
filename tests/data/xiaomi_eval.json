@@ -1,0 +1,9 @@
+[
+  {"question": "小米2024年收入是多少？", "expected_section": "主要会计数据", "expected_page": null},
+  {"question": "小米智能手机全球出货量如何？", "expected_section": "智能手机业务", "expected_page": null},
+  {"question": "小米智能电动车业务进展如何？", "expected_section": "智能电动车业务升级目标", "expected_page": null},
+  {"question": "公司面临的主要经营风险是什么？", "expected_section": "风险提示", "expected_page": null},
+  {"question": "小米未来战略规划是什么？", "expected_section": "发展战略", "expected_page": null},
+  {"question": "公司治理结构如何？", "expected_section": "公司治理", "expected_page": null},
+  {"question": "小米IoT业务收入表现如何？", "expected_section": "IoT业务", "expected_page": null}
+]

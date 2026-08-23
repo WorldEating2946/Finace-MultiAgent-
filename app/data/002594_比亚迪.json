@@ -1,0 +1,40 @@
+{
+  "_description": "比亚迪 (002594) 真实财报数据",
+  "_source": "公开年报数据整理",
+  "_note": "数值单位为人民币元",
+  "company_name": "比亚迪股份有限公司",
+  "ticker": "002594",
+  "industry": "汽车 / 新能源整车",
+  "fiscal_data": {
+    "2020": {
+      "revenue": 156597690000,
+      "net_profit": 4234260000,
+      "total_assets": 201017320000,
+      "shareholders_equity": 56874200000
+    },
+    "2021": {
+      "revenue": 216142390000,
+      "net_profit": 3045180000,
+      "total_assets": 295780000000,
+      "shareholders_equity": 59276000000
+    },
+    "2022": {
+      "revenue": 424060640000,
+      "net_profit": 16622448000,
+      "total_assets": 493860640000,
+      "shareholders_equity": 110141000000
+    },
+    "2023": {
+      "revenue": 602315350000,
+      "net_profit": 30040810000,
+      "total_assets": 679547830000,
+      "shareholders_equity": 148719000000
+    },
+    "2024": {
+      "revenue": 777102000000,
+      "net_profit": 40254000000,
+      "total_assets": 851200000000,
+      "shareholders_equity": 195000000000
+    }
+  }
+}

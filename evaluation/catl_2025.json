@@ -1,0 +1,12 @@
+[
+  {"query": "宁德时代2025年营业收入", "expected_sections": ["公司简介和主要财务指标", "财务报告"]},
+  {"query": "宁德时代换电站数量", "expected_sections": ["管理层讨论与分析"]},
+  {"query": "公司研发投入情况", "expected_sections": ["管理层讨论与分析", "财务报告"]},
+  {"query": "公司治理结构", "expected_sections": ["公司治理、环境和社会"]},
+  {"query": "动力电池装机量全球第一", "expected_sections": ["管理层讨论与分析"]},
+  {"query": "股份变动及股东情况", "expected_sections": ["股份变动及股东情况"]},
+  {"query": "财务报告审计意见", "expected_sections": ["财务报告"]},
+  {"query": "经营风险提示", "expected_sections": ["管理层讨论与分析", "重要事项", "财务报告"]},
+  {"query": "宁德时代2025年归属于上市公司股东的净利润", "expected_sections": ["公司简介和主要财务指标", "财务报告"]},
+  {"query": "宁德时代2025年末总资产", "expected_sections": ["财务报告"]}
+]

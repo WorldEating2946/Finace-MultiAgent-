@@ -1,0 +1,158 @@
+# ==================================================
+# FinaceAgent 基础设施编排（Docker Compose v2）
+#
+# 架构定位：本项目采用「Conda 管理应用 + Docker 管理基础设施」混合架构，
+# 本文件只编排数据库 / 缓存 / 向量库等基础服务，应用仍在 Conda 中运行。
+#
+# 快速开始（团队成员）：
+#     cp .env.example .env        # 或 Windows: copy .env.example .env
+#     docker compose up -d
+#     python scripts/init_db.py   # 建业务表 + LangGraph checkpoint 表
+#
+# 端口沿用 .env 约定：
+#     PostgreSQL 5433 / Redis 16379 / Milvus 19531 / Attu 30000
+#
+# 数据全部持久化到 named volume，docker compose down 不丢数据；
+# 彻底清空用 docker compose down -v（会删除全部数据卷，谨慎）。
+# ==================================================
+
+networks:
+  finance_network:
+    name: finance_network
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  etcd_data:
+  minio_data:
+  milvus_data:
+
+services:
+  # ── PostgreSQL：主业务库 + LangGraph checkpoint ──────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: finance-postgres
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      # $$ 转义 → 容器内 shell 解析容器自身的 POSTGRES_USER/POSTGRES_DB
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - finance_network
+
+  # ── Redis：缓存 / 任务调度队列（AOF 持久化，见 docker/redis/redis.conf）──
+  redis:
+    image: redis:7-alpine
+    container_name: finance-redis
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - finance_network
+
+  # ── etcd：Milvus 元数据存储（仅 internal，不暴露宿主机端口）──
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.14
+    container_name: finance-etcd
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: "1000"
+      ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+      ETCD_SNAPSHOT_COUNT: "50000"
+    command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    volumes:
+      - etcd_data:/etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - finance_network
+
+  # ── MinIO：Milvus 对象存储（仅 internal）────────────────────
+  minio:
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    container_name: finance-minio
+    environment:
+      # Milvus 默认以 minioadmin/minioadmin 访问 MinIO（milvus 镜像内建默认）
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: minio server /minio_data --console-address ":9001"
+    volumes:
+      - minio_data:/minio_data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - finance_network
+
+  # ── Milvus Standalone：生产向量检索后端（finance_agent.finance_knowledge）──
+  milvus:
+    image: milvusdb/milvus:v2.4.4
+    container_name: finance-milvus
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command: ["milvus", "run", "standalone"]
+    ports:
+      - "19531:19530"
+      - "9091:9091"
+    volumes:
+      - milvus_data:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+    depends_on:
+      etcd:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - finance_network
+
+  # ── Attu：Milvus Web 控制台（可视化查看 collection 数据）────
+  attu:
+    image: zilliz/attu:v2.4.12
+    container_name: finance-attu
+    environment:
+      # 容器内部通过 service name 访问 Milvus
+      MILVUS_URL: http://milvus:19530
+    ports:
+      - "30000:3000"
+    depends_on:
+      milvus:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - finance_network

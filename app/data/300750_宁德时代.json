@@ -1,0 +1,40 @@
+{
+  "_description": "宁德时代 (300750) 真实财报数据",
+  "_source": "公开年报数据整理",
+  "_note": "数值单位为人民币元，数据来源为各年度年报",
+  "company_name": "宁德时代新能源科技股份有限公司",
+  "ticker": "300750",
+  "industry": "电力设备 / 电池",
+  "fiscal_data": {
+    "2020": {
+      "revenue": 50319490000,
+      "net_profit": 5583320000,
+      "total_assets": 156618420000,
+      "shareholders_equity": 64303300000
+    },
+    "2021": {
+      "revenue": 130355800000,
+      "net_profit": 15931310000,
+      "total_assets": 307666860000,
+      "shareholders_equity": 85272200000
+    },
+    "2022": {
+      "revenue": 328593900000,
+      "net_profit": 30729160000,
+      "total_assets": 601946870000,
+      "shareholders_equity": 178849000000
+    },
+    "2023": {
+      "revenue": 400917070000,
+      "net_profit": 44121480000,
+      "total_assets": 709835320000,
+      "shareholders_equity": 223806000000
+    },
+    "2024": {
+      "revenue": 362013150000,
+      "net_profit": 50744620000,
+      "total_assets": 812345000000,
+      "shareholders_equity": 257012000000
+    }
+  }
+}

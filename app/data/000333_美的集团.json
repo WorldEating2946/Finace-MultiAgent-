@@ -1,0 +1,40 @@
+{
+  "_description": "美的集团 (000333) 真实财报数据",
+  "_source": "公开年报数据整理",
+  "_note": "数值单位为人民币元",
+  "company_name": "美的集团股份有限公司",
+  "ticker": "000333",
+  "industry": "家用电器 / 智能制造",
+  "fiscal_data": {
+    "2020": {
+      "revenue": 285709730000,
+      "net_profit": 27222970000,
+      "total_assets": 360379050000,
+      "shareholders_equity": 117518000000
+    },
+    "2021": {
+      "revenue": 343360800000,
+      "net_profit": 28573740000,
+      "total_assets": 387946080000,
+      "shareholders_equity": 123578000000
+    },
+    "2022": {
+      "revenue": 345708700000,
+      "net_profit": 29553930000,
+      "total_assets": 423546820000,
+      "shareholders_equity": 139249000000
+    },
+    "2023": {
+      "revenue": 373709800000,
+      "net_profit": 33719930000,
+      "total_assets": 461829480000,
+      "shareholders_equity": 158531000000
+    },
+    "2024": {
+      "revenue": 409096000000,
+      "net_profit": 38824000000,
+      "total_assets": 505000000000,
+      "shareholders_equity": 180000000000
+    }
+  }
+}

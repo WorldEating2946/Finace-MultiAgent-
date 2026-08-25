@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanceAgent · Research Agent V1 技术门户</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#f4f6fa;color:#1a2233;display:flex;min-height:100vh}
+  /* ---- Sidebar ---- */
+  .side{width:220px;background:#0f172a;color:#cbd5e1;padding:26px 0;position:fixed;height:100vh;top:0;left:0;display:flex;flex-direction:column}
+  .side .brand{padding:0 20px 22px;border-bottom:1px solid #1e293b;margin-bottom:18px}
+  .side .brand .logo{font-size:17px;font-weight:700;color:#fff;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .side .brand small{display:block;font-size:11px;color:#64748b;margin-top:4px}
+  .side a{display:block;padding:11px 20px;color:#94a3b8;text-decoration:none;font-size:13.5px;border-left:3px solid transparent;transition:.15s}
+  .side a:hover{color:#e2e8f0;background:#16213a}
+  .side a.active{color:#fff;background:linear-gradient(90deg,#1e3a8a,#4f46e5);border-left-color:#7c3aed;font-weight:600}
+  .side .foot{margin-top:auto;padding:16px 20px;font-size:11px;color:#475569}
+  /* ---- Content ---- */
+  .main{margin-left:220px;padding:34px 40px;flex:1;max-width:1080px}
+  header.hero{background:linear-gradient(135deg,#1e3a8a,#4f46e5 55%,#7c3aed);border-radius:18px;color:#fff;padding:36px 34px;box-shadow:0 10px 30px rgba(37,99,235,.25)}
+  header.hero h1{font-size:26px;margin-bottom:10px}
+  header.hero p{font-size:14px;opacity:.92;line-height:1.7;max-width:720px}
+  header.hero .tag{display:inline-block;margin-top:14px;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.16);font-size:12px}
+  h2{font-size:20px;margin:30px 0 14px;color:#111827}
+  h3{font-size:15px;margin:18px 0 8px;color:#1f2937}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:22px}
+  .card{background:#fff;border:1px solid #e4e8f0;border-radius:14px;padding:20px;text-decoration:none;color:inherit;transition:.18s;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(37,99,235,.14);border-color:#c7d2fe}
+  .card .ic{width:42px;height:42px;border-radius:11px;background:#eef2ff;color:#3730a3;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+  .card h3{margin:0 0 6px;font-size:15px}
+  .card p{font-size:12.5px;color:#5b6472;line-height:1.65}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:22px}
+  .stat{background:#fff;border:1px solid #e4e8f0;border-radius:12px;padding:16px 18px;text-align:center}
+  .stat .num{font-size:26px;font-weight:700;background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stat .lb{font-size:12px;color:#5b6472;margin-top:4px}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e4e8f0;margin-top:14px}
+  th,td{padding:10px 14px;font-size:13px;text-align:left;border-bottom:1px solid #eef1f6}
+  th{color:#5b6472;font-weight:600;background:#f8fafc}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:600}
+  .pill.blue{background:#eef2ff;color:#3730a3}
+  .note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;font-size:13px;color:#92400e;margin-top:14px}
+  @media(max-width:820px){.side{position:static;width:100%;height:auto}.main{margin-left:0;padding:20px}}
+</style>
+</head>
+<body>
+<nav class="side">
+  <div class="brand"><span class="logo">FinanceAgent</span><small>Research Agent V1</small></div>
+  <a href="index.html" class="active">🏠 总览</a>
+  <a href="architecture.html">🏛️ 系统架构</a>
+  <a href="rag.html">📚 RAG 检索链路</a>
+  <a href="agent.html">🤖 Research Agent</a>
+  <a href="runtime.html">⚙️ 生产 Runtime</a>
+  <a href="evaluation.html">📊 评测基线</a>
+  <div class="foot">v1.0-research-agent<br>2026-08-07</div>
+</nav>
+
+<div class="main">
+  <header class="hero">
+    <h1>FinanceAgent — 企业智能研究分析平台</h1>
+    <p>将 LLM、LangGraph、Hybrid RAG 与数据工具组合，实现企业知识库构建 → 语义检索 → 多步骤 Research Agent → Evidence 归因报告 → 生产级任务运行的完整闭环。</p>
+    <span class="tag">Research Agent V1 Delivery · PR31 → PR44.4 · 407 passed</span>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num">351页</div><div class="lb">真实验证年报（小鹏 2025）</div></div>
+    <div class="stat"><div class="num">772</div><div class="lb">入库 chunks</div></div>
+    <div class="stat"><div class="num">100%</div><div class="lb">证据覆盖 + 引用准确</div></div>
+    <div class="stat"><div class="num">~351ms</div><div class="lb">稳态单查询检索延迟</div></div>
+  </div>
+
+  <h2>六大模块</h2>
+  <div class="cards">
+    <a class="card" href="architecture.html"><div class="ic">🏛️</div><h3>系统架构</h3><p>六层分层架构：API → Runtime → Agent → RAG → 向量存储 → 基础设施，依赖单向、模块边界清晰。</p></a>
+    <a class="card" href="rag.html"><div class="ic">📚</div><h3>RAG 检索链路</h3><p>离线入库 + 在线检索双链路。Dense+Sparse → RRF 融合 → CrossEncoder 精排，FAISS/Milvus 可切换。</p></a>
+    <a class="card" href="agent.html"><div class="ic">🤖</div><h3>Research Agent</h3><p>意图理解 → 计划 → 逐步执行 → 证据归因报告 → 质量评测。LLM 只返回证据索引，无法编造来源。</p></a>
+    <a class="card" href="runtime.html"><div class="ic">⚙️</div><h3>生产 Runtime</h3><p>Redis 调度 + PG Lease 所有权 + Checkpoint 恢复 + 原子落库 + Reaper 看门狗 + Fencing 防复活。</p></a>
+    <a class="card" href="evaluation.html"><div class="ic">📊</div><h3>评测基线</h3><p>Recall@5 / MRR / NDCG 检索基线 + 5 项研究报告质量指标 + 双数据集回归门禁。</p></a>
+    <a class="card" href="index.html"><div class="ic">📦</div><h3>V1 交付包</h3><p>docs/01-06 设计文档 + 本门户 + CHANGELOG + .env.example 补全 + 小鹏真实流程演示脚本，零代码变更的纯文档里程碑。</p></a>
+  </div>
+
+  <h2>关键设计原则</h2>
+  <table>
+    <tr><th style="width:150px">原则</th><th>说明</th></tr>
+    <tr><td><span class="pill blue">数据分类施策</span></td><td>非结构化知识 → RAG；结构化数据 → Tool + 程序计算；实时舆情 → Search。LLM 不负责精确计算。</td></tr>
+    <tr><td><span class="pill blue">抗幻觉三件套</span></td><td>LLM 只返回证据索引 → 越界索引丢弃 → 无证据 claim 保留但证据为空（宁缺毋滥）。</td></tr>
+    <tr><td><span class="pill blue">可评测</span></td><td>每条论点可回源（章节/页码/原文 chunk），5 项质量指标量化，回归门禁守住基线。</td></tr>
+    <tr><td><span class="pill blue">可恢复</span></td><td>Runtime 故障矩阵全覆盖：Worker 崩溃 / Redis 重启 / 旧进程复活 / 超时 / 重试超限均有明确恢复路径。</td></tr>
+  </table>
+
+  <div class="note">🚀 <strong>10 分钟接手指南</strong>：先看「系统架构」理解分层 → 「RAG 检索链路」看数据怎么流 → 「Research Agent」看研究怎么跑 → 「生产 Runtime」看任务怎么管 → 「评测基线」看质量怎么保证。完整部署见 README「快速开始」。</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Agent · FinanceAgent V1</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:#f4f6fa;color:#1a2233;display:flex;min-height:100vh}
+  .side{width:220px;background:#0f172a;color:#cbd5e1;padding:26px 0;position:fixed;height:100vh;top:0;left:0;display:flex;flex-direction:column}
+  .side .brand{padding:0 20px 22px;border-bottom:1px solid #1e293b;margin-bottom:18px}
+  .side .brand .logo{font-size:17px;font-weight:700;color:#fff;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .side .brand small{display:block;font-size:11px;color:#64748b;margin-top:4px}
+  .side a{display:block;padding:11px 20px;color:#94a3b8;text-decoration:none;font-size:13.5px;border-left:3px solid transparent;transition:.15s}
+  .side a:hover{color:#e2e8f0;background:#16213a}
+  .side a.active{color:#fff;background:linear-gradient(90deg,#1e3a8a,#4f46e5);border-left-color:#7c3aed;font-weight:600}
+  .side .foot{margin-top:auto;padding:16px 20px;font-size:11px;color:#475569}
+  .main{margin-left:220px;padding:34px 40px;flex:1;max-width:1080px}
+  header.hero{background:linear-gradient(135deg,#1e3a8a,#4f46e5 55%,#7c3aed);border-radius:18px;color:#fff;padding:32px 34px;box-shadow:0 10px 30px rgba(37,99,235,.25)}
+  header.hero h1{font-size:24px;margin-bottom:8px}
+  header.hero p{font-size:13.5px;opacity:.92;line-height:1.7}
+  h2{font-size:20px;margin:30px 0 14px;color:#111827}
+  h3{font-size:15px;margin:18px 0 8px;color:#1f2937}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#fff;border:1px solid #e4e8f0;border-radius:12px;padding:16px;margin-top:14px;font-size:12.5px}
+  .flow .n{background:#e0e7ff;color:#3730a3;border-radius:10px;padding:8px 12px;font-weight:600}
+  .flow .a{color:#94a3b8;font-weight:700}
+  .claim{background:#fff;border-left:3px solid #2563eb;border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0}
+  .claim .txt{font-size:13.5px;color:#1f2937;line-height:1.6;font-weight:500}
+  .ev{background:#f8fafc;border:1px dashed #c7d2fe;border-radius:8px;padding:8px 12px;margin:8px 0 0 16px;font-size:12px;color:#374151;line-height:1.55}
+  .ev .meta{color:#5b6472;font-size:11.5px;margin-bottom:3px}
+  .ev .meta b{color:#3730a3}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e4e8f0;margin-top:14px}
+  th,td{padding:10px 14px;font-size:13px;text-align:left;border-bottom:1px solid #eef1f6}
+  th{color:#5b6472;font-weight:600;background:#f8fafc}
+  .anti{background:#0f172a;color:#a5b4fc;border-radius:12px;padding:18px;margin-top:14px;font-size:13px;line-height:1.7}
+  .anti code{background:#1e293b;padding:2px 6px;border-radius:5px;font-family:Consolas,monospace}
+  .note{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;font-size:13px;color:#92400e;margin-top:14px}
+  @media(max-width:820px){.side{position:static;width:100%;height:auto}.main{margin-left:0;padding:20px}}
+</style>
+</head>
+<body>
+<nav class="side">
+  <div class="brand"><span class="logo">FinanceAgent</span><small>Research Agent V1</small></div>
+  <a href="index.html">🏠 总览</a>
+  <a href="architecture.html">🏛️ 系统架构</a>
+  <a href="rag.html">📚 RAG 检索链路</a>
+  <a href="agent.html" class="active">🤖 Research Agent</a>
+  <a href="runtime.html">⚙️ 生产 Runtime</a>
+  <a href="evaluation.html">📊 评测基线</a>
+  <div class="foot">v1.0-research-agent<br>2026-08-07</div>
+</nav>
+
+<div class="main">
+  <header class="hero">
+    <h1>Research Agent</h1>
+    <p>理解研究意图 → 生成结构化计划 → 逐步证据检索 → 合成带证据链的报告 → 质量评测。核心：LLM 只返回证据索引，来源/页码/原文由后端补全，无法编造。</p>
+  </header>
+
+  <h2>六步流程</h2>
+  <div class="flow">
+    <span class="n">意图理解</span><span class="a">→</span>
+    <span class="n">计划生成</span><span class="a">→</span>
+    <span class="n">画像构建</span><span class="a">→</span>
+    <span class="n">逐步证据检索</span><span class="a">→</span>
+    <span class="n">报告合成</span><span class="a">→</span>
+    <span class="n">质量评测</span>
+  </div>
+
+  <h2>抗幻觉设计（核心机制）</h2>
+  <div class="anti">
+    LLM 输出 JSON 时 <b>只给证据索引</b>，不输出证据内容：<br><br>
+    <code>{ "claims": [{ "text": "2025年小鹏交付量创新高", "evidence_refs": [2, 5] }] }</code><br><br>
+    → 后端用 <code>ref_map</code> 从真实 chunk 补全来源/页码/原文<br>
+    → 越界索引 <b>静默丢弃</b>；无证据 claim 保留但证据为空（宁缺毋滥）<br>
+    → 模型编造"第 3 页说…"很容易，但"引用第 2 条证据"后证据链必然真实
+  </div>
+
+  <h2>真实生产流程展示：小鹏汽车智能驾驶竞争优势</h2>
+  <p style="font-size:13px;color:#5b6472;margin-bottom:6px">意图：competitive_analysis · 2025 年报（351 页 / 772 chunks）· 6 条论点全部带可溯源证据</p>
+
+  <div class="claim">
+    <div class="txt">战略聚焦中高端智能电动汽车市场，并与大众汽车集团达成战略技术合作，输出 G9 平台及车联网和 ADAS 技术，验证了技术竞争力。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 业务 · 第 16 页</div>信，我们在数据隐私和安全方面的政策和实践在所有重大方面符合适用法律和行业普遍实践…我们的战略重点是为全球乘用车市场的中高端市场提供智能电动汽车</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 业务 · 第 14 页</div>…我们亦透过全资子公司向客户提供汽车融资…战略交易 于2023年7月26日，我们…</div>
+  </div>
+
+  <div class="claim">
+    <div class="txt">产品线覆盖多款纯电及增程车型，CLTC 续航里程覆盖 625 公里至 1704 公里，ADAS 和车载智能操作系统提供差异化智能出行体验。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 管理层讨论及分析 · 第 129 页</div>里，增程电动汽车版本则可达1,704公里。‧ G9（纯电动汽车），轴距2,998毫米，CLTC里程介乎625公里至725公里…</div>
+  </div>
+
+  <div class="claim">
+    <div class="txt">自研 800V 高压 SiC 平台和 SEPA 2.0 智能电动平台架构，提升能源利用效率和充电效率，并通过增程车型解决续航焦虑。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 业务 · 第 12 页</div>我们于2022年9月在G9首次亮相时推出使用800V高压SiC平台的动力系统。因此，与其他基于400V平台的电动汽车相比，G9展现出更高的能源利用效率及充电效率…</div>
+  </div>
+
+  <div class="claim">
+    <div class="txt">关键核心技术如 ADAS、智能操作系统、动力总成系统及电子电气架构均为内部开发，形成技术壁垒。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 管理层讨论及分析 · 第 151 页</div>…本集团并无拥有任何保留权益或或有权益…从事租赁、对冲或产品开发服务的任何未…</div>
+  </div>
+
+  <div class="claim">
+    <div class="txt">2025 年汽车总交付量达 429,445 辆，同比增长 125.9%，实体销售网络覆盖 255 个城市，自营充电站网络达 3,159 座。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 五年财务摘要 · 第 4 页</div>主要业绩…截至2025年12月31日止年度的运营及财务摘要 ‧ 2025年汽车总交付量为429,445辆，较2024年的190,068辆增加125…</div>
+  </div>
+
+  <div class="claim">
+    <div class="txt">2026 年持续推进第二代 VLA 智能驾驶系统的部署，显示技术迭代能力。</div>
+    <div class="ev"><div class="meta">📄 <b>小鹏汽车2025年报.pdf</b> · 主要业绩 · 第 5 页</div>近期发展 于2026年1月，总交付量为20,011辆。‧ 于2026年2月，总交付量为15,256辆…</div>
+  </div>
+
+  <h2>质量评测五指标</h2>
+  <table>
+    <tr><th>指标</th><th>含义</th><th>小鹏实测</th></tr>
+    <tr><td>Evidence Coverage 证据覆盖率</td><td>有证据支撑的 claim 占比</td><td>100%</td></tr>
+    <tr><td>Citation Accuracy 引用准确率</td><td>证据四字段完整（chunk_id/source/quote/page）</td><td>100%</td></tr>
+    <tr><td>Claim Alignment 论点对齐度</td><td>claim 与证据语义一致性（Jaccard ≥ 0.2）</td><td>0.667</td></tr>
+    <tr><td>Completeness 步骤完整度</td><td>计划步骤完成比例</td><td>100%</td></tr>
+    <tr><td>Step Yield 步骤产出率</td><td>各步实际产出 evidence 比例</td><td>85.7%</td></tr>
+  </table>
+
+  <h2>企业知识画像（Profile）</h2>
+  <div class="flow">
+    <span class="n">主营产品</span><span class="n">目标客户</span><span class="n">竞争对手</span><span class="n">商业模式</span>
+    <span class="n">财务亮点</span><span class="n">发展战略</span><span class="n">竞争优势</span><span class="n">主要风险</span><span class="n">行业环境</span>
+  </div>
+  <p style="font-size:12.5px;color:#5b6472;margin-top:8px">9 字段 LLM 抽取 + 证据归因；缓存 data/profiles/{company}.json，每公司构建一次（约 6 分钟）。</p>
+
+  <div class="note">📖 详细设计见 <code>docs/03_agent_design.md</code> · 复现：<code>python scripts/run_xpeng_research_demo.py</code></div>
+</div>
+</body>
+</html>

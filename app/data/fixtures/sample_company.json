@@ -1,0 +1,38 @@
+{
+  "_description": "演示用样本数据 — 模拟一家成长型制造企业 2020-2024 五年财务数据",
+  "_usage": "API 不可用时的降级数据源，可通过 FINANCE_AGENT_DATA_FILE 环境变量替换",
+  "company_name": "示例制造企业",
+  "ticker": "000000",
+  "fiscal_data": {
+    "2020": {
+      "revenue": 8000000000,
+      "net_profit": 640000000,
+      "total_assets": 12000000000,
+      "shareholders_equity": 5000000000
+    },
+    "2021": {
+      "revenue": 10500000000,
+      "net_profit": 890000000,
+      "total_assets": 14200000000,
+      "shareholders_equity": 5700000000
+    },
+    "2022": {
+      "revenue": 13800000000,
+      "net_profit": 1250000000,
+      "total_assets": 17500000000,
+      "shareholders_equity": 6800000000
+    },
+    "2023": {
+      "revenue": 15200000000,
+      "net_profit": 1100000000,
+      "total_assets": 19000000000,
+      "shareholders_equity": 7500000000
+    },
+    "2024": {
+      "revenue": 17500000000,
+      "net_profit": 1580000000,
+      "total_assets": 22000000000,
+      "shareholders_equity": 8800000000
+    }
+  }
+}
